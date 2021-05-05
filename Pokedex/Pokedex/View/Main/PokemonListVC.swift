@@ -8,7 +8,8 @@
 import UIKit
 
 class PokemonListVC: UIViewController {
-
+    var listVM: PokemonListVM!
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
