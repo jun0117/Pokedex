@@ -5,17 +5,19 @@
 //  Created by 이준성 on 2021/05/04.
 //
 
-import SwiftyJSON
+import RealmSwift
 
-struct Pokemon {
-    let name: String
-    let url: String
-    let imageUrl: String
+class Pokemon: Object {
+    @objc dynamic var name: String = ""
+    @objc dynamic var url: String = ""
+    @objc dynamic var page: Int = 0
     
-    init(_ json: JSON) {
-        name = json["name"].stringValue
-        url = json["url"].stringValue
+    override class func primaryKey() -> String? {
+        "name"
+    }
+    
+    var imageUrl: String {
         let index = url.split(separator: "/").last!
-        imageUrl = "https://pokeres.bastionbot.org/images/pokemon/\(index).png"
+        return "https://pokeres.bastionbot.org/images/pokemon/\(index).png"
     }
 }
