@@ -12,15 +12,14 @@ struct APIManger {
     
     private let provider = MoyaProvider<APIService>()
     
-    func fetchPokemonList(page: Int, completion: @escaping (PokemonResponse) -> (), failure: @escaping (String) -> ()) {
+    func fetchPokemonList(page: Int, completion: @escaping (JSON) -> (), failure: @escaping (Error) -> ()) {
         provider.request(.pokemonResponse(page)) { result in
             switch result {
             case let .success(response):
-                let json = JSON(response.data)
-                completion(PokemonResponse(json))
+                completion(JSON(response.data))
                 
             case let .failure(error):
-                failure(error.localizedDescription)
+                failure(error)
             }
         }
     }
