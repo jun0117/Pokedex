@@ -9,7 +9,7 @@ import RxSwift
 
 class PokemonListRepository {
     private let apiManager = APIManger()
-    private let dbManager = DBManager()
+    private let dbManager = DBManager.shared
 
     func fetchPokemonList(page: Int) -> Observable<[Pokemon]> {
         return Observable.create { [weak self] observer -> Disposable in
