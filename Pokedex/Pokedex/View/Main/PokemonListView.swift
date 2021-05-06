@@ -9,10 +9,34 @@ import UIKit
 import SnapKit
 
 class PokemonListView: UIView {
+    var collectionView: UICollectionView!
 
     init() {
         super.init(frame: .zero)
         backgroundColor = .systemBackground
+        setCollectionView()
+    }
+
+    private func setCollectionView() {
+        let flowLayout = UICollectionViewFlowLayout().then {
+            let cellCountPerRow: CGFloat = 2
+            let sideSpacing: CGFloat = 12.0
+            let spacingBetweenCell: CGFloat = 8
+            let totalSpacing = (2 * sideSpacing) + (cellCountPerRow - 1) * spacingBetweenCell
+            let length: CGFloat = (UIScreen.main.bounds.width - totalSpacing) / cellCountPerRow
+            $0.itemSize = CGSize(width: length, height: length)
+            $0.sectionInset = .init(top: 10, left: 10, bottom: 10, right: 10)
+        }
+
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
+            addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.left.right.equalToSuperview()
+                make.top.bottom.equalTo(safeAreaLayoutGuide)
+            }
+            $0.backgroundColor = .systemBackground
+            $0.register(PokemonListCell.self, forCellWithReuseIdentifier: PokemonListCell.id)
+        }
     }
 
     required init?(coder: NSCoder) {
