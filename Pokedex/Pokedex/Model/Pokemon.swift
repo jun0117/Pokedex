@@ -8,6 +8,7 @@
 import RealmSwift
 
 class Pokemon: Object {
+    @objc dynamic var index: Int = 0
     @objc dynamic var name: String = ""
     @objc dynamic var url: String = ""
     @objc dynamic var page: Int = 0
@@ -16,8 +17,5 @@ class Pokemon: Object {
         "name"
     }
 
-    var imageUrl: String {
-        let index = url.split(separator: "/").last!
-        return "https://pokeres.bastionbot.org/images/pokemon/\(index).png"
-    }
+    var imageUrl: String { "https://pokeres.bastionbot.org/images/pokemon/\(index).png" }
 }

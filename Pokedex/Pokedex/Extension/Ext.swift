@@ -8,5 +8,5 @@
 import UIKit
 
 extension UIView {
-    static var id: String { String(describing: self) }
+    static var id: String { String(describing: self) } // swiftlint:disable:this identifier_name
 }
