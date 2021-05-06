@@ -16,7 +16,7 @@ class PokemonListRepository {
             guard let self = self else { return Disposables.create() }
             let pokemonList = self.dbManager.getPokemonList(page)
             if pokemonList.isEmpty {
-                self.apiManager.fetchPokemonList(page: page) { [weak self] json in
+                self.apiManager.fetch(.pokemonList(page)) { [weak self] json in
                     self?.dbManager.insertPokemonList(page, jsonList: json["results"].arrayValue)
                     let allPokemonList = self?.dbManager.getAllPokemonList(page)
                     observer.onNext(allPokemonList ?? [])

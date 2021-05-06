@@ -8,7 +8,7 @@
 import Moya
 
 enum APIService {
-    case pokemonResponse(Int)
+    case pokemonList(Int)
     case pokemonInfo(String)
 }
 
@@ -16,7 +16,7 @@ extension APIService: TargetType {
     var baseURL: URL { URL(string: "https://pokeapi.co/api/v2/")! }
     var path: String {
         switch self {
-        case .pokemonResponse(_):
+        case .pokemonList(_):
             return "pokemon/"
 
         case let .pokemonInfo(name):
@@ -26,7 +26,7 @@ extension APIService: TargetType {
 
     var task: Task {
         switch self {
-        case let .pokemonResponse(page):
+        case let .pokemonList(page):
             let pageSize = 20
             let params: [String: Any?] = [
                 "limit": pageSize,
