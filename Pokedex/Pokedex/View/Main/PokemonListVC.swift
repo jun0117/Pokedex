@@ -41,5 +41,11 @@ class PokemonListVC: UIViewController {
                     self?.listVM.fetchNextPage()
                 }
             }.disposed(by: disposeBag)
+
+        listView.collectionView.rx.modelSelected(Pokemon.self).bind { [weak self] pokemon in
+            let pokemonInfoVC = PokemonInfoVC()
+            pokemonInfoVC.infoVM = PokemonInfoVM(pokemon)
+            self?.navigationController?.pushViewController(pokemonInfoVC, animated: true)
+        }.disposed(by: disposeBag)
     }
 }
