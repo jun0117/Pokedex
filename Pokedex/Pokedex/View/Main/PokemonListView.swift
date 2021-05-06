@@ -10,11 +10,13 @@ import SnapKit
 
 class PokemonListView: UIView {
     var collectionView: UICollectionView!
+    var activityIndicator = UIActivityIndicatorView()
 
     init() {
         super.init(frame: .zero)
         backgroundColor = .systemBackground
         setCollectionView()
+        setIndicator()
     }
 
     private func setCollectionView() {
@@ -36,6 +38,17 @@ class PokemonListView: UIView {
             }
             $0.backgroundColor = .systemBackground
             $0.register(PokemonListCell.self, forCellWithReuseIdentifier: PokemonListCell.id)
+        }
+    }
+
+    private func setIndicator() {
+        activityIndicator.do {
+            addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+            }
+            $0.style = .large
+            $0.color = .red
         }
     }
 

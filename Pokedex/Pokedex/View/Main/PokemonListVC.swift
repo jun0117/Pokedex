@@ -28,5 +28,18 @@ class PokemonListVC: UIViewController {
             .drive(listView.collectionView.rx.items(cellIdentifier: PokemonListCell.id, cellType: PokemonListCell.self)) { _, pokemon, cell in
                 cell.configure(pokemon)
             }.disposed(by: disposeBag)
+
+        listVM.isLoading.asDriver(onErrorJustReturn: false)
+            .drive(listView.activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
+
+        listView.collectionView.rx.willDisplayCell.asDriver()
+            .throttle(.milliseconds(100))
+            .drive { [weak self] _, index in
+                guard let count = self?.listView.collectionView.numberOfItems(inSection: 0) else { return }
+                if index.row + 1 == count {
+                    self?.listVM.fetchNextPage()
+                }
+            }.disposed(by: disposeBag)
     }
 }
