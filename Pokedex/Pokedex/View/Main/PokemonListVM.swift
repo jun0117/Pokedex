@@ -25,11 +25,10 @@ class PokemonListVM {
         isLoading.accept(true)
         _ = repository.fetchPokemonList(page: page)
             .retry(3)
-            .take(1)
             .subscribe { [weak self] list in
                 self?.pokemonList.accept(list)
                 self?.isLoading.accept(false)
-            } onError: { [weak self] error in
+            } onFailure: { [weak self] error in
                 self?.isLoading.accept(false)
                 print(error.localizedDescription)
             }

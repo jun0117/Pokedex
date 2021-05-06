@@ -11,22 +11,21 @@ class PokemonListRepository {
     private let apiManager = APIManger()
     private let dbManager = DBManager.shared
 
-    func fetchPokemonList(page: Int) -> Observable<[Pokemon]> {
-        return Observable.create { [weak self] observer -> Disposable in
+    func fetchPokemonList(page: Int) -> Single<[Pokemon]> {
+        return .create { [weak self] single -> Disposable in
             guard let self = self else { return Disposables.create() }
             let pokemonList = self.dbManager.getPokemonList(page)
             if pokemonList.isEmpty {
                 self.apiManager.fetch(.pokemonList(page)) { [weak self] json in
                     self?.dbManager.insertPokemonList(page, jsonList: json["results"].arrayValue)
                     let allPokemonList = self?.dbManager.getAllPokemonList(page)
-                    observer.onNext(allPokemonList ?? [])
-                    observer.onCompleted()
+                    single(.success(allPokemonList ?? []))
                 } failure: { error in
-                    observer.onError(error)
+                    single(.failure(error))
                 }
             } else {
                 let allPokemonList = self.dbManager.getAllPokemonList(page)
-                observer.onNext(allPokemonList)
+                single(.success(allPokemonList))
             }
 
             return Disposables.create()
