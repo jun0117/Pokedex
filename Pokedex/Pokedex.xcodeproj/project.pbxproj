@@ -22,6 +22,7 @@
 		6CCAEFD22642ACF80098BA2C /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCAEFD12642ACF80098BA2C /* DBManager.swift */; };
 		6CCAEFD52642AD470098BA2C /* PokemonListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCAEFD42642AD470098BA2C /* PokemonListRepository.swift */; };
 		6CCAEFD7264318080098BA2C /* PokemonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCAEFD6264318080098BA2C /* PokemonListView.swift */; };
+		6CCAEFDB26439CE00098BA2C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6CCAEFDA26439CE00098BA2C /* .swiftlint.yml */; };
 		8AA16744DA39136A8C8A121F /* Pods_PokedexTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34D03392BAA6F5ED0F612F62 /* Pods_PokedexTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		6CCAEFD12642ACF80098BA2C /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		6CCAEFD42642AD470098BA2C /* PokemonListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListRepository.swift; sourceTree = "<group>"; };
 		6CCAEFD6264318080098BA2C /* PokemonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListView.swift; sourceTree = "<group>"; };
+		6CCAEFDA26439CE00098BA2C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		7ADCBDC5ABA1A23DB23A9D9C /* Pods-Pokedex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pokedex.debug.xcconfig"; path = "Target Support Files/Pods-Pokedex/Pods-Pokedex.debug.xcconfig"; sourceTree = "<group>"; };
 		E17F63A0CF66D466821870C1 /* Pods-PokedexTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokedexTests.release.xcconfig"; path = "Target Support Files/Pods-PokedexTests/Pods-PokedexTests.release.xcconfig"; sourceTree = "<group>"; };
 		E61D5AACAC5F33D6C0C51D06 /* Pods_Pokedex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pokedex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,6 +129,7 @@
 		6CCAEF84264047FA0098BA2C = {
 			isa = PBXGroup;
 			children = (
+				6CCAEFDA26439CE00098BA2C /* .swiftlint.yml */,
 				6CCAEF8F264047FA0098BA2C /* Pokedex */,
 				6CCAEFA6264047FB0098BA2C /* PokedexTests */,
 				6CCAEFB1264047FB0098BA2C /* PokedexUITests */,
@@ -154,6 +157,7 @@
 				6CCAEFC5264164940098BA2C /* Network */,
 				6CCAEFC02641361C0098BA2C /* Model */,
 				6CCAEFCC26428ED20098BA2C /* View */,
+				6CCAEFD82643183E0098BA2C /* Extension */,
 				6CCAEF90264047FA0098BA2C /* AppDelegate.swift */,
 				6CCAEF99264047FB0098BA2C /* Assets.xcassets */,
 				6CCAEF9B264047FB0098BA2C /* LaunchScreen.storyboard */,
@@ -231,6 +235,13 @@
 			path = Repository;
 			sourceTree = "<group>";
 		};
+		6CCAEFD82643183E0098BA2C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -243,6 +254,7 @@
 				6CCAEF8A264047FA0098BA2C /* Frameworks */,
 				6CCAEF8B264047FA0098BA2C /* Resources */,
 				614BFFDF164C52371451DA1C /* [CP] Embed Pods Frameworks */,
+				6CCAEFD926439B540098BA2C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -339,6 +351,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CCAEFDB26439CE00098BA2C /* .swiftlint.yml in Resources */,
 				6CCAEF9D264047FB0098BA2C /* LaunchScreen.storyboard in Resources */,
 				6CCAEF9A264047FB0098BA2C /* Assets.xcassets in Resources */,
 			);
@@ -416,6 +429,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Pokedex/Pods-Pokedex-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		6CCAEFD926439B540098BA2C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		9077046E8DCBF33B67637C86 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

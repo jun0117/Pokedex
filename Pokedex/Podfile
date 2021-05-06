@@ -11,6 +11,7 @@ def common_pods
   pod 'Alamofire', '~> 5.2'
   pod 'Moya', '~> 14.0'
   pod 'RealmSwift'
+  pod 'SwiftLint'
 end
 
 target 'Pokedex' do

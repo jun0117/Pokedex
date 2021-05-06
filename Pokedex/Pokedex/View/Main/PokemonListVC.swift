@@ -10,16 +10,14 @@ import UIKit
 class PokemonListVC: UIViewController {
     private var listView: PokemonListView { view as! PokemonListView }
     var listVM: PokemonListVM!
-    
+
     override func loadView() {
         view = PokemonListView()
     }
-        
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
     }
 
-
 }
-

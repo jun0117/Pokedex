@@ -10,7 +10,7 @@ import RxSwift
 class PokemonListRepository {
     private let apiManager = APIManger()
     private let dbManager = DBManager()
-    
+
     func fetchPokemonList(page: Int) -> Observable<[Pokemon]> {
         return Observable.create { [weak self] observer -> Disposable in
             guard let self = self else { return Disposables.create() }
@@ -28,7 +28,7 @@ class PokemonListRepository {
                 let allPokemonList = self.dbManager.getAllPokemonList(page)
                 observer.onNext(allPokemonList)
             }
-            
+
             return Disposables.create()
         }
     }

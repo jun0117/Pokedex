@@ -10,8 +10,8 @@ import RealmSwift
 import Then
 
 class DBManager {
-    private let realm = try! Realm()
-    
+    private let realm = try! Realm() // swiftlint:disable:this force_try
+
     func insertPokemonList(_ page: Int, jsonList: [JSON]) {
         let pokemonList = jsonList.map { json -> Pokemon in
             return Pokemon().then {
@@ -20,20 +20,19 @@ class DBManager {
                 $0.page = page
             }
         }
-        
-        try! realm.write {
+
+        try? realm.write {
             realm.add(pokemonList, update: .modified)
         }
     }
-    
+
     func getPokemonList(_ page: Int) -> [Pokemon] {
         let pokemonList = realm.objects(Pokemon.self).filter { $0.page == page }
         return Array(pokemonList)
     }
-    
+
     func getAllPokemonList(_ page: Int) -> [Pokemon] {
         let pokemonList = realm.objects(Pokemon.self).filter { $0.page <= page }
         return Array(pokemonList)
     }
 }
-

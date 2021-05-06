@@ -18,31 +18,31 @@ extension APIService: TargetType {
         switch self {
         case .pokemonResponse(_):
             return "pokemon/"
-            
+
         case let .pokemonInfo(name):
             return "pokemon/\(name)"
         }
     }
-    
+
     var task: Task {
         switch self {
         case let .pokemonResponse(page):
-            let PAGE_SIZE = 20
+            let pageSize = 20
             let params: [String: Any?] = [
-                "limit": PAGE_SIZE,
-                "offset": page * PAGE_SIZE
+                "limit": pageSize,
+                "offset": page * pageSize
             ]
-            
+
             return .requestParameters(
                 parameters: params.compactMapValues { $0 },
                 encoding: URLEncoding.queryString
             )
-            
+
         default: return .requestPlain
         }
     }
-    
-    var headers: [String : String]? { [:] }
+
+    var headers: [String: String]? { [:] }
     var method: Method { .get }
     var sampleData: Data { Data() }
 }

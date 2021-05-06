@@ -9,15 +9,15 @@ import Moya
 import SwiftyJSON
 
 struct APIManger {
-    
+
     private let provider = MoyaProvider<APIService>()
-    
-    func fetchPokemonList(page: Int, completion: @escaping (JSON) -> (), failure: @escaping (Error) -> ()) {
+
+    func fetchPokemonList(page: Int, completion: @escaping (JSON) -> Void, failure: @escaping (Error) -> Void) {
         provider.request(.pokemonResponse(page)) { result in
             switch result {
             case let .success(response):
                 completion(JSON(response.data))
-                
+
             case let .failure(error):
                 failure(error)
             }
