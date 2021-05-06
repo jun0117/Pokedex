@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import RxSwift
 
 class PokemonListVC: UIViewController {
     private var listView: PokemonListView { view as! PokemonListView }
+    private var disposeBag = DisposeBag()
     var listVM: PokemonListVM!
 
     override func loadView() {
@@ -17,7 +19,14 @@ class PokemonListVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        title = "Pokedex"
+        bind()
     }
 
+    private func bind() {
+        listVM.pokemonList.asDriver()
+            .drive(listView.collectionView.rx.items(cellIdentifier: PokemonListCell.id, cellType: PokemonListCell.self)) { _, pokemon, cell in
+                cell.configure(pokemon)
+            }.disposed(by: disposeBag)
+    }
 }
