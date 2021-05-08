@@ -9,7 +9,7 @@ import Moya
 
 enum APIService {
     case pokemonList(Int)
-    case pokemonInfo(String)
+    case pokemonInfo(Int)
 }
 
 extension APIService: TargetType {
@@ -19,8 +19,8 @@ extension APIService: TargetType {
         case .pokemonList(_):
             return "pokemon/"
 
-        case let .pokemonInfo(name):
-            return "pokemon/\(name)"
+        case let .pokemonInfo(index):
+            return "pokemon/\(index)"
         }
     }
 

@@ -43,4 +43,31 @@ class DBManager {
             .sorted(by: { $0.index < $1.index })
         return Array(pokemonList)
     }
+
+    func insertPokemonInfo(_ index: Int, json: JSON) -> PokemonInfo {
+        let pokemonInfo = PokemonInfo().then {
+            $0.index = index
+            $0.hp = json["stats"].arrayValue[0]["base_stat"].intValue
+            $0.attack = json["stats"].arrayValue[1]["base_stat"].intValue
+            $0.defense = json["stats"].arrayValue[2]["base_stat"].intValue
+            $0.speed = json["stats"].arrayValue[5]["base_stat"].intValue
+            $0.height = json["height"].intValue
+            $0.weight = json["weight"].intValue
+            let typeList = List<String>()
+            json["types"].arrayValue.forEach { typeJson in
+                typeList.append(typeJson["type"]["name"].stringValue)
+            }
+            $0.typeList = typeList
+        }
+
+        try? realm.write {
+            realm.add(pokemonInfo, update: .modified)
+        }
+
+        return pokemonInfo
+    }
+
+    func getPokemonInfo(_ index: Int) -> PokemonInfo? {
+        realm.object(ofType: PokemonInfo.self, forPrimaryKey: index)
+    }
 }
