@@ -21,6 +21,13 @@ class PokemonInfoVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = infoVM.pokemon.name.capitalized
+        bind()
+    }
+
+    private func bind() {
+        infoVM.isLoading.asDriver(onErrorJustReturn: false)
+            .drive(infoView.activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
     }
 
 }

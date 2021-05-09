@@ -11,7 +11,7 @@ import RxCocoa
 class PokemonInfoVM {
     private let repository: PokemonListRepository
     var pokemon: Pokemon
-    var isLoading = PublishRelay<Bool>()
+    var isLoading = BehaviorRelay<Bool>(value: false)
     var info = BehaviorRelay<PokemonInfo>(value: .init())
 
     init(_ pokemon: Pokemon, repository: PokemonListRepository) {

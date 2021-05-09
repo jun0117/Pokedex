@@ -9,10 +9,23 @@ import UIKit
 import SnapKit
 
 class PokemonInfoView: UIView {
+    var activityIndicator = UIActivityIndicatorView()
 
     init() {
         super.init(frame: .zero)
         backgroundColor = .systemBackground
+        setIndicator()
+    }
+
+    private func setIndicator() {
+        activityIndicator.do {
+            addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+            }
+            $0.style = .large
+            $0.color = .red
+        }
     }
 
     required init?(coder: NSCoder) {
