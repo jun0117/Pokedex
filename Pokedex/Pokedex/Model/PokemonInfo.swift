@@ -12,8 +12,10 @@ class PokemonInfo: Object {
     @objc dynamic var hp: Int = 0 // swiftlint:disable:this identifier_name
     @objc dynamic var weight: Int = 0
     @objc dynamic var height: Int = 0
-    @objc dynamic var defense: Int = 0
     @objc dynamic var attack: Int = 0
+    @objc dynamic var defense: Int = 0
+    @objc dynamic var spAttack: Int = 0
+    @objc dynamic var spDefense: Int = 0
     @objc dynamic var speed: Int = 0
     var typeList: List<String> = .init()
 

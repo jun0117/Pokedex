@@ -50,6 +50,8 @@ class DBManager {
             $0.hp = json["stats"].arrayValue[0]["base_stat"].intValue
             $0.attack = json["stats"].arrayValue[1]["base_stat"].intValue
             $0.defense = json["stats"].arrayValue[2]["base_stat"].intValue
+            $0.spAttack = json["stats"].arrayValue[3]["base_stat"].intValue
+            $0.spDefense = json["stats"].arrayValue[4]["base_stat"].intValue
             $0.speed = json["stats"].arrayValue[5]["base_stat"].intValue
             $0.height = json["height"].intValue
             $0.weight = json["weight"].intValue
