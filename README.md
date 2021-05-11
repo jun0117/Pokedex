@@ -3,7 +3,9 @@
 ## Architecture & Library
 * Language : Swift
 
-* Architecture : MVVM(RxSwift), View(code-based SnapKit)
+* Architecture : MVVM(RxSwift)
+
+* UI : code-based SnapKit (storyboardless)
 
 * Database : Realm
 
@@ -12,4 +14,5 @@
 * JsonParsing : SwiftyJSON
 
 * OpenAPI : [PokeAPI](https://pokeapi.co/)
-           
+
+* etc : Then
