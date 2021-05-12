@@ -9,12 +9,100 @@ import UIKit
 import SnapKit
 
 class PokemonInfoView: UIView {
-    var activityIndicator = UIActivityIndicatorView()
+    private let scrollView = UIScrollView()
+    private let innerView = UIView()
+
+    private let headerView = UIView()
+    let idLabel = UILabel()
+    let pokemonImage = UIImageView()
+    let pokemonName = UILabel()
+    let typeStackView = UIStackView()
+
+    let activityIndicator = UIActivityIndicatorView()
 
     init() {
         super.init(frame: .zero)
         backgroundColor = .systemBackground
+        setScrollView()
+        setHeaderView()
         setIndicator()
+    }
+
+    private func setScrollView() {
+        scrollView.do {
+            addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.bottom.equalTo(safeAreaLayoutGuide)
+                make.left.right.equalToSuperview()
+                make.height.equalTo(safeAreaLayoutGuide)
+            }
+        }
+
+        innerView.do {
+            scrollView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.left.right.top.bottom.equalToSuperview()
+                make.width.height.equalToSuperview()
+            }
+        }
+    }
+
+    private func setHeaderView() {
+        headerView.do {
+            innerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.left.right.equalToSuperview()
+                make.height.equalToSuperview().multipliedBy(0.6)
+            }
+            $0.backgroundColor = .white
+        }
+
+        idLabel.do {
+            headerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.right.equalToSuperview().inset(20)
+            }
+            $0.textColor = .white
+            $0.font = .boldSystemFont(ofSize: 30)
+        }
+
+        pokemonImage.do {
+            headerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.width.height.equalTo(200)
+                make.centerX.equalToSuperview()
+                make.centerY.equalToSuperview().inset(30)
+            }
+            $0.contentMode = .scaleAspectFit
+        }
+
+        pokemonName.do {
+            headerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.equalTo(pokemonImage.snp.bottom).offset(10)
+                make.centerX.equalToSuperview()
+            }
+            $0.textColor = .white
+            $0.font = .boldSystemFont(ofSize: 34)
+        }
+
+        typeStackView.do {
+            headerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.equalTo(pokemonName.snp.bottom).offset(10)
+                make.centerX.equalToSuperview()
+                make.height.equalTo(40)
+            }
+        }
+    }
+
+    func setTypeList(_ typeList: [PokemonType]) {
+        typeList.forEach {
+            let imageView = UIImageView(image: .init(named: $0.name.capitalized))
+            typeStackView.addArrangedSubview(imageView)
+        }
+
+        headerView.backgroundColor = typeList.first?.color
     }
 
     private func setIndicator() {

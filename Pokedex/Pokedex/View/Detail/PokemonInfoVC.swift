@@ -20,11 +20,27 @@ class PokemonInfoVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = infoVM.pokemon.name.capitalized
         bind()
     }
 
     private func bind() {
+        infoView.pokemonImage.kf.setImage(with: URL(string: infoVM.pokemon.imageUrl))
+        infoView.pokemonName.text = infoVM.pokemon.name.capitalized
+
+        infoVM.info
+            .map { $0.index }
+            .map { String(format: "#%03d", $0) }
+            .asDriver(onErrorJustReturn: "")
+            .drive(infoView.idLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        infoVM.info
+            .map { $0.pokemonTypeList }
+            .asDriver(onErrorJustReturn: [])
+            .drive(onNext: { [weak self] typeList in
+                self?.infoView.setTypeList(typeList)
+            }).disposed(by: disposeBag)
+
         infoVM.isLoading.asDriver(onErrorJustReturn: false)
             .drive(infoView.activityIndicator.rx.isAnimating)
             .disposed(by: disposeBag)
