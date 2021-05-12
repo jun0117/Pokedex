@@ -45,7 +45,7 @@ class PokemonListVC: UIViewController {
         listView.collectionView.rx.modelSelected(Pokemon.self).bind { [weak self] pokemon in
             let pokemonInfoVC = PokemonInfoVC()
             pokemonInfoVC.infoVM = PokemonInfoVM(pokemon, repository: .init())
-            self?.navigationController?.pushViewController(pokemonInfoVC, animated: true)
+            self?.navigationController?.present(pokemonInfoVC, animated: true)
         }.disposed(by: disposeBag)
     }
 }
