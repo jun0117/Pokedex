@@ -57,10 +57,31 @@ class PokemonInfoView: UIView {
             $0.backgroundColor = .white
         }
 
+        pokemonName.do {
+            headerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.equalToSuperview().inset(20)
+                make.left.equalToSuperview().offset(20)
+                make.centerX.equalToSuperview()
+            }
+            $0.textColor = .white
+            $0.font = .boldSystemFont(ofSize: 40)
+        }
+
+        typeStackView.do {
+            headerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.equalTo(pokemonName.snp.bottom).offset(4)
+                make.left.equalTo(pokemonName)
+                make.height.equalTo(40)
+            }
+        }
+
         idLabel.do {
             headerView.addSubview($0)
             $0.snp.makeConstraints { make in
-                make.top.right.equalToSuperview().inset(20)
+                make.right.equalToSuperview().inset(20)
+                make.centerY.equalTo(pokemonName)
             }
             $0.textColor = .white
             $0.font = .boldSystemFont(ofSize: 30)
@@ -71,28 +92,9 @@ class PokemonInfoView: UIView {
             $0.snp.makeConstraints { make in
                 make.width.height.equalTo(200)
                 make.centerX.equalToSuperview()
-                make.centerY.equalToSuperview().inset(30)
+                make.top.equalTo(typeStackView.snp.bottom).offset(20)
             }
             $0.contentMode = .scaleAspectFit
-        }
-
-        pokemonName.do {
-            headerView.addSubview($0)
-            $0.snp.makeConstraints { make in
-                make.top.equalTo(pokemonImage.snp.bottom).offset(10)
-                make.centerX.equalToSuperview()
-            }
-            $0.textColor = .white
-            $0.font = .boldSystemFont(ofSize: 34)
-        }
-
-        typeStackView.do {
-            headerView.addSubview($0)
-            $0.snp.makeConstraints { make in
-                make.top.equalTo(pokemonName.snp.bottom).offset(10)
-                make.centerX.equalToSuperview()
-                make.height.equalTo(40)
-            }
         }
     }
 
