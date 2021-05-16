@@ -13,20 +13,22 @@ class PokemonListVM {
     private var disposeBag = DisposeBag()
     var pokemonList = BehaviorRelay<[Pokemon]>(value: [])
     var isLoading = PublishRelay<Bool>()
-    private var page = BehaviorRelay<Int>(value: 0)
+    private var page = 0
+    private var isPaging = false
 
     init(_ repository: PokemonListRepository) {
         self.repository = repository
         fetchPokemonList(page: 0)
-        bindNextPage()
     }
 
     private func fetchPokemonList(page: Int) {
+        isPaging = true
         isLoading.accept(true)
         _ = repository.fetchPokemonList(page: page)
             .retry(3)
             .subscribe { [weak self] list in
                 self?.pokemonList.accept(list)
+                self?.isPaging = false
                 self?.isLoading.accept(false)
             } onFailure: { [weak self] error in
                 self?.isLoading.accept(false)
@@ -34,13 +36,9 @@ class PokemonListVM {
             }
     }
 
-    private func bindNextPage() {
-        page.bind { [weak self] page in
-            self?.fetchPokemonList(page: page)
-        }.disposed(by: disposeBag)
-    }
-
     func fetchNextPage() {
-        page.accept(page.value + 1)
+        if !isPaging {
+            fetchPokemonList(page: page + 1)
+        }
     }
 }
