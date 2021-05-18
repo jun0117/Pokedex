@@ -9,6 +9,29 @@ import UIKit
 
 extension UIView {
     static var id: String { String(describing: self) } // swiftlint:disable:this identifier_name
+
+    func roundCorners(_ corners: [Corner], radius: CGFloat) {
+        var caCorners = CACornerMask()
+
+        corners.forEach { corner in
+            switch corner {
+            case .leftTop: caCorners.insert(.layerMinXMinYCorner)
+            case .leftBottom: caCorners.insert(.layerMinXMaxYCorner)
+            case .rightTop: caCorners.insert(.layerMaxXMinYCorner)
+            default: caCorners.insert(.layerMaxXMaxYCorner)
+            }
+        }
+        roundCorners(corners: caCorners, radius: radius)
+    }
+
+    private func roundCorners(corners: CACornerMask, radius: CGFloat) {
+        self.layer.maskedCorners = corners
+        self.layer.cornerRadius = radius
+    }
+
+    enum Corner {
+        case leftTop, leftBottom, rightTop, rightBottom
+    }
 }
 
 extension UIColor {
