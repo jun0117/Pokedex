@@ -18,6 +18,8 @@ class PokemonInfoView: UIView {
     let pokemonName = UILabel()
     let typeStackView = UIStackView()
 
+    private let footerView = UIView()
+
     let activityIndicator = UIActivityIndicatorView()
 
     init() {
@@ -25,6 +27,7 @@ class PokemonInfoView: UIView {
         backgroundColor = .systemBackground
         setScrollView()
         setHeaderView()
+        setFooterView()
         setIndicator()
     }
 
@@ -52,7 +55,6 @@ class PokemonInfoView: UIView {
             innerView.addSubview($0)
             $0.snp.makeConstraints { make in
                 make.top.left.right.equalToSuperview()
-                make.height.equalToSuperview().multipliedBy(0.6)
             }
             $0.backgroundColor = .white
         }
@@ -93,8 +95,22 @@ class PokemonInfoView: UIView {
                 make.width.height.equalTo(200)
                 make.centerX.equalToSuperview()
                 make.top.equalTo(typeStackView.snp.bottom).offset(20)
+                make.bottom.equalToSuperview().inset(20)
             }
             $0.contentMode = .scaleAspectFit
+        }
+    }
+
+    private func setFooterView() {
+        footerView.do {
+            innerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.equalTo(headerView.snp.bottom).inset(20)
+                make.left.right.equalToSuperview()
+                make.bottom.equalToSuperview()
+            }
+            $0.roundCorners([.leftTop, .rightTop], radius: 20)
+            $0.backgroundColor = .white
         }
     }
 
