@@ -16,9 +16,11 @@ class PokemonInfoView: UIView {
     let idLabel = UILabel()
     let pokemonImage = UIImageView()
     let pokemonName = UILabel()
-    let typeStackView = UIStackView()
+    private let typeStackView = UIStackView()
 
     private let footerView = UIView()
+    private let weightLabel = UILabel()
+    private let heightLabel = UILabel()
 
     let activityIndicator = UIActivityIndicatorView()
 
@@ -112,9 +114,73 @@ class PokemonInfoView: UIView {
             $0.roundCorners([.leftTop, .rightTop], radius: 20)
             $0.backgroundColor = .white
         }
+
+        setWeightHeightView()
     }
 
-    func setTypeList(_ typeList: [PokemonType]) {
+    private func setWeightHeightView() {
+        let divider = UIView().then {
+            footerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.equalToSuperview().offset(40)
+                make.centerX.equalToSuperview()
+                make.width.equalTo(1)
+            }
+            $0.backgroundColor = .separator
+        }
+
+        let weightTitleLabel = UILabel().then {
+            footerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.left.equalToSuperview()
+                make.right.equalTo(divider.snp.left)
+                make.centerY.equalTo(divider)
+            }
+            $0.text = "Weight"
+            $0.font = .boldSystemFont(ofSize: 17)
+            $0.textAlignment = .center
+        }
+
+        weightLabel.do {
+            footerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.equalTo(weightTitleLabel.snp.bottom).offset(12)
+                make.centerX.equalTo(weightTitleLabel)
+            }
+            $0.font = .systemFont(ofSize: 15)
+        }
+
+        let heightTitleLabel = UILabel().then {
+            footerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.left.equalTo(divider.snp.right)
+                make.right.equalToSuperview()
+                make.centerY.equalTo(divider)
+            }
+            $0.text = "Height"
+            $0.font = .boldSystemFont(ofSize: 17)
+            $0.textAlignment = .center
+        }
+
+        heightLabel.do {
+            footerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.equalTo(heightTitleLabel.snp.bottom).offset(12)
+                make.centerX.equalTo(heightTitleLabel)
+            }
+            $0.font = .systemFont(ofSize: 15)
+        }
+    }
+
+    func setPokeInfo(_ pokeInfo: PokemonInfo) {
+        idLabel.text = String(format: "#%03d", pokeInfo.index)
+        weightLabel.text = String(format: "%.1f kg", Float(pokeInfo.weight) / 10)
+        heightLabel.text = String(format: "%.1f m", Float(pokeInfo.height) / 10)
+
+        setTypeList(pokeInfo.pokemonTypeList)
+    }
+
+    private func setTypeList(_ typeList: [PokemonType]) {
         typeList.forEach {
             let imageView = UIImageView(image: .init(named: $0.name.capitalized))
             typeStackView.addArrangedSubview(imageView)
