@@ -178,6 +178,7 @@ class PokemonInfoView: UIView {
         heightLabel.text = String(format: "%.1f m", Float(pokeInfo.height) / 10)
 
         setTypeList(pokeInfo.pokemonTypeList)
+        setStatProgressView(pokeInfo)
     }
 
     private func setTypeList(_ typeList: [PokemonType]) {
@@ -187,6 +188,59 @@ class PokemonInfoView: UIView {
         }
 
         headerView.backgroundColor = typeList.first?.color
+    }
+
+    private func setStatProgressView(_ pokeInfo: PokemonInfo) {
+        let statViewList = [
+            makeProgressView(name: "Hp", value: pokeInfo.hp),
+            makeProgressView(name: "Speed", value: pokeInfo.speed),
+            makeProgressView(name: "Attack", value: pokeInfo.attack),
+            makeProgressView(name: "Defense", value: pokeInfo.defense),
+            makeProgressView(name: "Sp.Atk", value: pokeInfo.spAttack),
+            makeProgressView(name: "Sp.Def", value: pokeInfo.spDefense)
+        ]
+
+        UIStackView(arrangedSubviews: statViewList).do {
+            footerView.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.equalTo(weightLabel.snp.bottom).offset(16)
+                make.left.right.equalToSuperview()
+            }
+            $0.axis = .vertical
+            $0.spacing = 8
+        }
+    }
+
+    private func makeProgressView(name: String, value: Int) -> UIView {
+        let container = UIView().then {
+            $0.snp.makeConstraints { make in
+                make.width.equalTo(UIScreen.main.bounds.width)
+                make.height.equalTo(30)
+            }
+        }
+
+        let nameLabel = UILabel().then {
+            container.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.centerY.equalToSuperview()
+                make.left.equalToSuperview().offset(32)
+                make.width.equalTo(80)
+            }
+            $0.text = name
+        }
+
+        UIProgressView().do {
+            container.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.centerY.equalTo(nameLabel)
+                make.left.equalTo(nameLabel.snp.right).offset(32)
+                make.right.equalToSuperview().inset(32)
+            }
+
+            $0.progress = Float(value) / 200
+        }
+
+        return container
     }
 
     private func setIndicator() {
