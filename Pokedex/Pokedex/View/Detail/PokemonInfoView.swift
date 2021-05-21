@@ -192,12 +192,12 @@ class PokemonInfoView: UIView {
 
     private func setStatProgressView(_ pokeInfo: PokemonInfo) {
         let statViewList = [
-            makeProgressView(name: "Hp", value: pokeInfo.hp),
-            makeProgressView(name: "Speed", value: pokeInfo.speed),
-            makeProgressView(name: "Attack", value: pokeInfo.attack),
-            makeProgressView(name: "Defense", value: pokeInfo.defense),
-            makeProgressView(name: "Sp.Atk", value: pokeInfo.spAttack),
-            makeProgressView(name: "Sp.Def", value: pokeInfo.spDefense)
+            makeProgressView(name: "Hp", value: pokeInfo.hp, color: .green),
+            makeProgressView(name: "Speed", value: pokeInfo.speed, color: .lightGray),
+            makeProgressView(name: "Attack", value: pokeInfo.attack, color: .red),
+            makeProgressView(name: "Defense", value: pokeInfo.defense, color: .blue),
+            makeProgressView(name: "Sp.Atk", value: pokeInfo.spAttack, color: .purple),
+            makeProgressView(name: "Sp.Def", value: pokeInfo.spDefense, color: .yellow)
         ]
 
         UIStackView(arrangedSubviews: statViewList).do {
@@ -211,7 +211,7 @@ class PokemonInfoView: UIView {
         }
     }
 
-    private func makeProgressView(name: String, value: Int) -> UIView {
+    private func makeProgressView(name: String, value: Int, color: UIColor) -> UIView {
         let container = UIView().then {
             $0.snp.makeConstraints { make in
                 make.width.equalTo(UIScreen.main.bounds.width)
@@ -235,9 +235,15 @@ class PokemonInfoView: UIView {
                 make.centerY.equalTo(nameLabel)
                 make.left.equalTo(nameLabel.snp.right).offset(32)
                 make.right.equalToSuperview().inset(32)
+                make.height.equalTo(8)
             }
 
             $0.progress = Float(value) / 200
+            $0.progressTintColor = color
+            $0.trackTintColor = .white
+            $0.layer.borderColor = UIColor.separator.cgColor
+            $0.layer.borderWidth = 0.5
+            $0.layer.cornerRadius = 4
         }
 
         return container
