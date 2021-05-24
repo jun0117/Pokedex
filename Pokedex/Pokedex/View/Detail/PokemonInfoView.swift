@@ -203,7 +203,7 @@ class PokemonInfoView: UIView {
         UIStackView(arrangedSubviews: statViewList).do {
             footerView.addSubview($0)
             $0.snp.makeConstraints { make in
-                make.top.equalTo(weightLabel.snp.bottom).offset(16)
+                make.top.equalTo(weightLabel.snp.bottom).offset(32)
                 make.left.right.equalToSuperview()
             }
             $0.axis = .vertical
@@ -224,20 +224,31 @@ class PokemonInfoView: UIView {
             $0.snp.makeConstraints { make in
                 make.centerY.equalToSuperview()
                 make.left.equalToSuperview().offset(32)
-                make.width.equalTo(80)
+                make.width.equalTo(70)
             }
             $0.text = name
+            $0.font = .systemFont(ofSize: 15)
+        }
+
+        let valueLabel = UILabel().then {
+            container.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.centerY.equalToSuperview()
+                make.left.equalTo(nameLabel.snp.right).offset(8)
+                make.width.equalTo(30)
+            }
+            $0.text = "\(value)"
+            $0.font = .systemFont(ofSize: 15)
         }
 
         UIProgressView().do {
             container.addSubview($0)
             $0.snp.makeConstraints { make in
-                make.centerY.equalTo(nameLabel)
-                make.left.equalTo(nameLabel.snp.right).offset(32)
+                make.centerY.equalTo(valueLabel)
+                make.left.equalTo(valueLabel.snp.right).offset(20)
                 make.right.equalToSuperview().inset(32)
                 make.height.equalTo(8)
             }
-
             $0.progress = Float(value) / 200
             $0.progressTintColor = color
             $0.trackTintColor = .white
