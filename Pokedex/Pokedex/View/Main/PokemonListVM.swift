@@ -38,7 +38,8 @@ class PokemonListVM {
 
     func fetchNextPage() {
         if !isPaging {
-            fetchPokemonList(page: page + 1)
+            page += 1
+            fetchPokemonList(page: page)
         }
     }
 }
