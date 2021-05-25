@@ -12,15 +12,14 @@ class PokemonInfoVM {
     private let repository: PokemonListRepository
     var pokemon: Pokemon
     var isLoading = BehaviorRelay<Bool>(value: false)
-    var info = BehaviorRelay<PokemonInfo>(value: .init())
+    var info = PublishRelay<PokemonInfo>()
 
     init(_ pokemon: Pokemon, repository: PokemonListRepository) {
         self.repository = repository
         self.pokemon = pokemon
-        fetchPokemonInfo()
     }
 
-    private func fetchPokemonInfo() {
+    func fetchPokemonInfo() {
         isLoading.accept(true)
         _ = repository.fetchPokemonInfo(index: pokemon.index)
             .retry(3)

@@ -27,7 +27,7 @@ class PokemonInfoVC: UIViewController {
         infoView.pokemonImage.kf.setImage(with: URL(string: infoVM.pokemon.imageUrl))
         infoView.pokemonName.text = infoVM.pokemon.name.capitalized
 
-        infoVM.info.asDriver()
+        infoVM.info.asDriver(onErrorJustReturn: .init())
             .drive(onNext: { [weak self] info in
                 self?.infoView.setPokeInfo(info)
             }).disposed(by: disposeBag)
@@ -35,6 +35,8 @@ class PokemonInfoVC: UIViewController {
         infoVM.isLoading.asDriver(onErrorJustReturn: false)
             .drive(infoView.activityIndicator.rx.isAnimating)
             .disposed(by: disposeBag)
+
+        infoVM.fetchPokemonInfo()
     }
 
 }
