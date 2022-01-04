@@ -16,7 +16,7 @@ extension APIService: TargetType {
     var baseURL: URL { URL(string: "https://pokeapi.co/api/v2/")! }
     var path: String {
         switch self {
-        case .pokemonList(_):
+        case .pokemonList:
             return "pokemon/"
 
         case let .pokemonInfo(index):
