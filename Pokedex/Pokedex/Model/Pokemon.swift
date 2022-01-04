@@ -17,5 +17,5 @@ class Pokemon: Object {
         "name"
     }
 
-    var imageUrl: String { "https://pokeres.bastionbot.org/images/pokemon/\(index).png" }
+    var imageUrl: String { "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(index).png" }
 }
