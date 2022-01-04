@@ -2,14 +2,14 @@
 platform :ios, '14.1'
 
 def common_pods
-  pod 'RxSwift', '6.1.0'
-  pod 'RxCocoa', '6.1.0'
+  pod 'RxSwift', '6.2.0'
+  pod 'RxCocoa', '6.2.0'
   pod 'SwiftyJSON', '~> 5.0'
   pod 'SnapKit', '~> 5.0.0'
   pod 'Then'
   pod 'Kingfisher', '~> 6.0'
   pod 'Alamofire', '~> 5.2'
-  pod 'Moya', '~> 14.0'
+  pod 'Moya/RxSwift', '~> 15.0'
   pod 'RealmSwift'
   pod 'SwiftLint'
 end

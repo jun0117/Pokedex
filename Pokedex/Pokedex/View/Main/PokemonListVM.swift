@@ -8,38 +8,68 @@
 import RxSwift
 import RxCocoa
 
-class PokemonListVM {
+class PokemonListVM: BaseViewModel {
+    struct Input {
+        let viewDidAppear: AnyObserver<Void>
+        
+        let fetchMore: AnyObserver<Void>
+    }
+    
+    struct Output {
+        let pokemonList: Driver<[Pokemon]>
+        
+        let isLoading: Observable<Bool>
+        
+        let noMoreData: Observable<Bool>
+    }
+
+    private(set) var input: Input!
+    private(set) var output: Output!
+
     private let repository: PokemonListRepository
-    private var disposeBag = DisposeBag()
-    var pokemonList = BehaviorRelay<[Pokemon]>(value: [])
-    var isLoading = PublishRelay<Bool>()
     private var page = 0
-    private var isPaging = false
+
+    // Input
+    private let viewDidAppear = PublishSubject<Void>()
+    private let fetchMore = PublishSubject<Void>()
 
     init(_ repository: PokemonListRepository) {
         self.repository = repository
-        fetchPokemonList(page: 0)
+        self.input = Input(
+            viewDidAppear: viewDidAppear.asObserver(),
+            fetchMore: fetchMore.asObserver()
+        )
+    
+        self.output = initOutput()
     }
 
-    private func fetchPokemonList(page: Int) {
-        isPaging = true
-        isLoading.accept(true)
-        _ = repository.fetchPokemonList(page: page)
-            .retry(3)
-            .subscribe { [weak self] list in
-                self?.pokemonList.accept(list)
-                self?.isPaging = false
-                self?.isLoading.accept(false)
-            } onFailure: { [weak self] error in
-                self?.isLoading.accept(false)
-                print(error.localizedDescription)
+    private func initOutput() -> Output {
+        let isLoading = BehaviorRelay<Bool>(value: false)
+        let noMoreData = BehaviorRelay<Bool>(value: false)
+        
+        let pokemonList = Observable
+            .merge(viewDidAppear.take(1), fetchMore)
+            .filter { isLoading.value == false }
+            .do(onNext: { _ in isLoading.accept(true) })
+            .withUnretained(self)
+            .flatMapLatest { owner, _ in
+                owner.repository.fetchPokemonList(page: owner.page)
             }
-    }
-
-    func fetchNextPage() {
-        if !isPaging {
-            page += 1
-            fetchPokemonList(page: page)
-        }
+            .do(onNext: { [weak self] pokemonList in
+                self?.page += 1
+                if pokemonList.isEmpty {
+                    noMoreData.accept(true)
+                }
+            })
+            .scan([]) { prev, new -> [Pokemon] in
+                new.isEmpty ? prev : prev + new
+            }
+            .do(onNext: { _ in isLoading.accept(false) })
+        
+        return Output(
+            pokemonList: pokemonList.asDriver(onErrorJustReturn: []),
+            isLoading: isLoading.asObservable(),
+            noMoreData: noMoreData.asObservable()
+        )
     }
 }

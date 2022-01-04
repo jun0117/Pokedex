@@ -7,44 +7,59 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
-class PokemonListVC: UIViewController {
-    private var listView: PokemonListView { view as! PokemonListView }
-    private var disposeBag = DisposeBag()
-    var listVM: PokemonListVM!
-
-    override func loadView() {
-        view = PokemonListView()
-    }
+class PokemonListVC: BaseViewController<PokemonListVM, PokemonListView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Pokedex"
-        bind()
+        bindInput()
+        bindOutput()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.input.viewDidAppear.onNext(())
     }
 
-    private func bind() {
-        listVM.pokemonList.asDriver()
-            .drive(listView.collectionView.rx.items(cellIdentifier: PokemonListCell.id, cellType: PokemonListCell.self)) { _, pokemon, cell in
-                cell.configure(pokemon)
-            }.disposed(by: disposeBag)
-
-        listVM.isLoading.asDriver(onErrorJustReturn: false)
-            .drive(listView.activityIndicator.rx.isAnimating)
+    private func bindInput() {
+        contentView.collectionView.rx
+            .willDisplayCell
+            .throttle(.milliseconds(100), scheduler: MainScheduler.instance)
+            .filter { [weak self] _, indexPath in
+                guard let count = self?.contentView.collectionView.numberOfItems(inSection: 0) else {
+                    return false
+                }
+                return indexPath.row + 1 == count
+            }
+            .map { _ in () }
+            .bind(to: viewModel.input.fetchMore)
             .disposed(by: disposeBag)
 
-        listView.collectionView.rx.willDisplayCell.asDriver()
-            .throttle(.milliseconds(100))
-            .drive { [weak self] _, index in
-                guard let count = self?.listView.collectionView.numberOfItems(inSection: 0),
-                      index.row + 1 == count else { return }
-                self?.listVM.fetchNextPage()
+        contentView.collectionView.rx
+            .modelSelected(Pokemon.self)
+            .bind(with: self) { owner, pokemon in
+                let pokemonInfoVC = PokemonInfoVC()
+                pokemonInfoVC.infoVM = PokemonInfoVM(pokemon, repository: .init())
+                owner.navigationController?.present(pokemonInfoVC, animated: true)
             }.disposed(by: disposeBag)
+    }
 
-        listView.collectionView.rx.modelSelected(Pokemon.self).bind { [weak self] pokemon in
-            let pokemonInfoVC = PokemonInfoVC()
-            pokemonInfoVC.infoVM = PokemonInfoVM(pokemon, repository: .init())
-            self?.navigationController?.present(pokemonInfoVC, animated: true)
-        }.disposed(by: disposeBag)
+    private func bindOutput() {
+        viewModel.output.pokemonList
+            .drive(contentView.collectionView.rx.items(cellIdentifier: PokemonListCell.id, cellType: PokemonListCell.self)) { _, pokemon, cell in
+                cell.configure(pokemon)
+            }.disposed(by: disposeBag)
+        
+        viewModel.output.isLoading
+            .bind(to: contentView.activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
+
+        viewModel.output.noMoreData
+            .filter { $0 }
+            .bind(with: self) { _, _ in
+                print("noMoreData")
+            }.disposed(by: disposeBag)
     }
 }

@@ -7,6 +7,7 @@
 
 import Moya
 import SwiftyJSON
+import RxSwift
 
 struct APIManger {
 
@@ -22,5 +23,12 @@ struct APIManger {
                 failure(error)
             }
         }
+    }
+    
+    func fetch(_ api: APIService) -> Observable<JSON> {
+        provider.rx.request(api)
+            .map { JSON($0.data) }
+            .retry(3)
+            .asObservable()
     }
 }
