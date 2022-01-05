@@ -8,27 +8,49 @@
 import RxSwift
 import RxCocoa
 
-class PokemonInfoVM {
-    private let repository: PokemonListRepository
-    var pokemon: Pokemon
-    var isLoading = BehaviorRelay<Bool>(value: false)
-    var info = PublishRelay<PokemonInfo>()
-
-    init(_ pokemon: Pokemon, repository: PokemonListRepository) {
-        self.repository = repository
-        self.pokemon = pokemon
+class PokemonInfoVM: BaseViewModel {
+    struct Input {
+        let viewDidAppear: AnyObserver<Void>
     }
 
-    func fetchPokemonInfo() {
-        isLoading.accept(true)
-        _ = repository.fetchPokemonInfo(index: pokemon.index)
-            .retry(3)
-            .subscribe { [weak self] pokemonInfo in
-                self?.info.accept(pokemonInfo)
-                self?.isLoading.accept(false)
-            } onFailure: { [weak self] error in
-                self?.isLoading.accept(false)
-                print(error.localizedDescription)
+    struct Output {
+        let pokemon: Observable<Pokemon>
+
+        let pokemonInfo: Observable<PokemonInfo>
+
+        let isLoading: Observable<Bool>
+    }
+
+    private(set) var input: Input!
+    private(set) var output: Output!
+
+    private let repository: PokemonListRepository
+    private let pokemon: Pokemon
+
+    // Input
+    private let viewDidAppear = PublishSubject<Void>()
+
+    init(_ pokemon: Pokemon, repository: PokemonListRepository) {
+        self.pokemon = pokemon
+        self.repository = repository
+        self.input = Input(viewDidAppear: viewDidAppear.asObserver())
+        self.output = initOutput()
+    }
+
+    private func initOutput() -> Output {
+        let isLoading = BehaviorRelay<Bool>(value: false)
+
+        let pokemonInfo = viewDidAppear
+            .filter { isLoading.value == false }
+            .do(onNext: { _ in isLoading.accept(true) })
+            .withUnretained(self)
+            .flatMapLatest { owner, _ in
+                owner.repository.fetchPokemonInfo(index: owner.pokemon.index)
             }
+            .do(onNext: { _ in isLoading.accept(false) })
+
+        return Output(pokemon: .just(pokemon),
+                      pokemonInfo: pokemonInfo,
+                      isLoading: isLoading.asObservable())
     }
 }

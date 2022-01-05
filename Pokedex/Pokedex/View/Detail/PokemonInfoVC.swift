@@ -9,34 +9,40 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class PokemonInfoVC: UIViewController {
-    private var infoView: PokemonInfoView { view as! PokemonInfoView }
-    private var disposeBag = DisposeBag()
-    var infoVM: PokemonInfoVM!
-
-    override func loadView() {
-        view = PokemonInfoView()
-    }
+class PokemonInfoVC: BaseViewController<PokemonInfoVM, PokemonInfoView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        bind()
+        bindOutput()
     }
 
-    private func bind() {
-        infoView.pokemonImage.kf.setImage(with: URL(string: infoVM.pokemon.imageUrl))
-        infoView.pokemonName.text = infoVM.pokemon.name.capitalized
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.input.viewDidAppear.onNext(())
+    }
 
-        infoVM.info.asDriver(onErrorJustReturn: .init())
-            .drive(onNext: { [weak self] info in
-                self?.infoView.setPokeInfo(info)
-            }).disposed(by: disposeBag)
-
-        infoVM.isLoading.asDriver(onErrorJustReturn: false)
-            .drive(infoView.activityIndicator.rx.isAnimating)
+    private func bindOutput() {
+        viewModel.output.pokemon
+            .bind(to: self.rx.pokemon)
             .disposed(by: disposeBag)
 
-        infoVM.fetchPokemonInfo()
+        viewModel.output.pokemonInfo
+            .bind(with: self) { owner, info in
+                owner.contentView.setPokeInfo(info)
+            }.disposed(by: disposeBag)
+
+        viewModel.output.isLoading
+            .bind(to: contentView.activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
     }
 
+}
+
+extension Reactive where Base: PokemonInfoVC {
+    var pokemon: Binder<Pokemon> {
+        Binder(base) { base, pokemon in
+            base.contentView.pokemonImage.kf.setImage(with: URL(string: pokemon.imageUrl))
+            base.contentView.pokemonName.text = pokemon.name.capitalized
+        }
+    }
 }

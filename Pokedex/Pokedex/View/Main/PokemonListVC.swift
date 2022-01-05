@@ -40,8 +40,8 @@ class PokemonListVC: BaseViewController<PokemonListVM, PokemonListView> {
         contentView.collectionView.rx
             .modelSelected(Pokemon.self)
             .bind(with: self) { owner, pokemon in
-                let pokemonInfoVC = PokemonInfoVC()
-                pokemonInfoVC.infoVM = PokemonInfoVM(pokemon, repository: .init())
+                let pokemonInfoVM = PokemonInfoVM(pokemon, repository: .init())
+                let pokemonInfoVC = PokemonInfoVC(viewModel: pokemonInfoVM)
                 owner.navigationController?.present(pokemonInfoVC, animated: true)
             }.disposed(by: disposeBag)
     }
@@ -51,7 +51,7 @@ class PokemonListVC: BaseViewController<PokemonListVM, PokemonListView> {
             .drive(contentView.collectionView.rx.items(cellIdentifier: PokemonListCell.id, cellType: PokemonListCell.self)) { _, pokemon, cell in
                 cell.configure(pokemon)
             }.disposed(by: disposeBag)
-        
+
         viewModel.output.isLoading
             .bind(to: contentView.activityIndicator.rx.isAnimating)
             .disposed(by: disposeBag)
