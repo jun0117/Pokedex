@@ -21,8 +21,8 @@ class PokemonListRepository {
                     owner.dbManager.insertPokemonList(page, jsonList: jsonList)
                 })
                 .flatMapLatest { owner, _ -> Observable<[Pokemon]> in
-                    let allPokemonList = owner.dbManager.getAllPokemonList(page)
-                    return .just(allPokemonList)
+                    let pokemonList = owner.dbManager.getPokemonList(page)
+                    return .just(pokemonList)
                 }
         } else {
             return .just(pokemonList)
