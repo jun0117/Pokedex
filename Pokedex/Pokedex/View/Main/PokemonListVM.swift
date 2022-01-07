@@ -39,14 +39,14 @@ class PokemonListVM: BaseViewModel {
             viewDidAppear: viewDidAppear.asObserver(),
             fetchMore: fetchMore.asObserver()
         )
-    
+
         self.output = initOutput()
     }
 
     private func initOutput() -> Output {
         let isLoading = BehaviorRelay<Bool>(value: false)
         let noMoreData = BehaviorRelay<Bool>(value: false)
-        
+
         let pokemonList = Observable
             .merge(viewDidAppear.take(1), fetchMore)
             .filter { isLoading.value == false }
@@ -65,7 +65,7 @@ class PokemonListVM: BaseViewModel {
                 new.isEmpty ? prev : prev + new
             }
             .do(onNext: { _ in isLoading.accept(false) })
-        
+
         return Output(
             pokemonList: pokemonList.asDriver(onErrorJustReturn: []),
             isLoading: isLoading.asObservable(),

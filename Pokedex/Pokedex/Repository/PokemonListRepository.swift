@@ -40,7 +40,5 @@ class PokemonListRepository {
                     return .just(pokemonInfo)
                 }
         }
-        
-        
     }
 }
