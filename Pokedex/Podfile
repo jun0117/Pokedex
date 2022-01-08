@@ -7,7 +7,7 @@ def common_pods
   pod 'SwiftyJSON', '~> 5.0'
   pod 'SnapKit', '~> 5.0.0'
   pod 'Then'
-  pod 'Kingfisher', '~> 6.0'
+  pod 'Kingfisher', '~> 7.0'
   pod 'Alamofire', '~> 5.2'
   pod 'Moya/RxSwift', '~> 15.0'
   pod 'RealmSwift'

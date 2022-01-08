@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (5.5.0)
-  - Kingfisher (6.3.1)
+  - Kingfisher (7.1.2)
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
   - Moya/RxSwift (15.0.0):
@@ -24,7 +24,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.2)
-  - Kingfisher (~> 6.0)
+  - Kingfisher (~> 7.0)
   - Moya/RxSwift (~> 15.0)
   - RealmSwift
   - RxCocoa (= 6.2.0)
@@ -51,7 +51,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
-  Kingfisher: 016c8b653a35add51dd34a3aba36b580041acc74
+  Kingfisher: 44ed6a8504763f27bab46163adfac83f5deb240c
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   Realm: fac5ecd031fcb81171627b74944c885662d4b266
   RealmSwift: 9b02d25acb46a14756bde9893abb99e2e3675923
@@ -63,6 +63,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: 56533710d5522e6584bbd48e6b9038edfc1a2410
+PODFILE CHECKSUM: 1464f6c341cc971fc081a8b49351cb3cca9ad842
 
 COCOAPODS: 1.11.2
