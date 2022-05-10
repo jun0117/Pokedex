@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class PokemonListVC: BaseViewController<PokemonListVM, PokemonListView> {
+final class PokemonListVC: BaseViewController<PokemonListVM, PokemonListView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()

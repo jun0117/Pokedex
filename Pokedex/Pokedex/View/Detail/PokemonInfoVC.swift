@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class PokemonInfoVC: BaseViewController<PokemonInfoVM, PokemonInfoView> {
+final class PokemonInfoVC: BaseViewController<PokemonInfoVM, PokemonInfoView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()

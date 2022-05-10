@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class PokemonListView: UIView {
+final class PokemonListView: UIView {
     var collectionView: UICollectionView!
     var activityIndicator = UIActivityIndicatorView()
 

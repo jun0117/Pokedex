@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-class PokemonListVM: BaseViewModel {
+final class PokemonListVM: BaseViewModel {
     struct Input {
         let viewDidAppear: AnyObserver<Void>
         
@@ -33,7 +33,7 @@ class PokemonListVM: BaseViewModel {
     private let viewDidAppear = PublishSubject<Void>()
     private let fetchMore = PublishSubject<Void>()
 
-    init(_ repository: PokemonListRepository) {
+    init(repository: PokemonListRepository) {
         self.repository = repository
         self.input = Input(
             viewDidAppear: viewDidAppear.asObserver(),

@@ -7,7 +7,7 @@
 
 import RealmSwift
 
-class PokemonInfo: Object {
+final class PokemonInfo: Object {
     @objc dynamic var index: Int = 0
     @objc dynamic var hp: Int = 0 // swiftlint:disable:this identifier_name
     @objc dynamic var weight: Int = 0

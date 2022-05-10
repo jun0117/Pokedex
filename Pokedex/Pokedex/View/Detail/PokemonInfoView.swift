@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class PokemonInfoView: UIView {
+final class PokemonInfoView: UIView {
     private let scrollView = UIScrollView()
     private let innerView = UIView()
 

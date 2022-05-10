@@ -7,7 +7,7 @@
 
 import RxSwift
 
-class PokemonListRepository {
+final class PokemonListRepository {
     private let apiManager = APIManger()
     private let dbManager = DBManager.shared
 

@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-class PokemonInfoVM: BaseViewModel {
+final class PokemonInfoVM: BaseViewModel {
     struct Input {
         let viewDidAppear: AnyObserver<Void>
     }

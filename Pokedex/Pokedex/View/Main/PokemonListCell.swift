@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-class PokemonListCell: UICollectionViewCell {
+final class PokemonListCell: UICollectionViewCell {
     let container = UIView()
     let nameLabel = UILabel()
     let image = UIImageView()

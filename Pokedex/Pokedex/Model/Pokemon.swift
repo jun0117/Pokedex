@@ -7,7 +7,7 @@
 
 import RealmSwift
 
-class Pokemon: Object {
+final class Pokemon: Object {
     @objc dynamic var index: Int = 0
     @objc dynamic var name: String = ""
     @objc dynamic var url: String = ""

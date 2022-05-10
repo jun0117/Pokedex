@@ -14,8 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
-        let pokemonListVM = PokemonListVM(PokemonListRepository())
-        let pokemonListVC = PokemonListVC(viewModel: pokemonListVM)
+        let pokemonListVC = PokemonListVC(viewModel: .init(repository: .init()))
         window?.rootViewController = UINavigationController(rootViewController: pokemonListVC)
         window?.makeKeyAndVisible()
         return true

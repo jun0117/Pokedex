@@ -9,7 +9,7 @@ import SwiftyJSON
 import RealmSwift
 import Then
 
-class DBManager {
+final class DBManager {
     static let shared = DBManager()
     private let realm = try! Realm() // swiftlint:disable:this force_try
 
