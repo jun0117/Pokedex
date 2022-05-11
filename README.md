@@ -3,7 +3,7 @@
 ## Architecture & Library
 * Language : Swift
 
-* Architecture : MVVM(RxSwift)
+* Architecture : MVVM(RxSwift) + Clean Architecture(적용중..)
 
 * UI : code-based SnapKit (storyboardless)
 
