@@ -9,9 +9,13 @@ import Moya
 import SwiftyJSON
 import RxSwift
 
-struct APIManger {
+struct APIManager {
 
-    private let provider = MoyaProvider<APIService>()
+    private let provider: MoyaProvider<APIService>
+
+    init(provider: MoyaProvider<APIService> = .init()) {
+        self.provider = provider
+    }
 
     func fetch(_ api: APIService) -> Observable<JSON> {
         provider.rx.request(api)

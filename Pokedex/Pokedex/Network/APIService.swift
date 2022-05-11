@@ -44,5 +44,13 @@ extension APIService: TargetType {
 
     var headers: [String: String]? { [:] }
     var method: Method { .get }
-    var sampleData: Data { Data() }
+    var sampleData: Data {
+        switch self {
+        case .pokemonList(let page):
+            return Self.stubbedResponse(fileName: "MockPokemonList_\(page)")
+
+        case .pokemonInfo(_):
+            return Data()
+        }
+    }
 }

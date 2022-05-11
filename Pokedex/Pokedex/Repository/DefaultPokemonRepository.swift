@@ -8,7 +8,7 @@
 import RxSwift
 
 final class DefaultPokemonRepository: PokemonRepository {
-    private let apiManager = APIManger()
+    private let apiManager = APIManager()
     private let dbManager = DBManager.shared
 
     func fetchPokemonList(page: Int) -> Observable<[Pokemon]> {

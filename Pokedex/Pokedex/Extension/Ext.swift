@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Moya
 
 extension UIView {
     static var id: String { String(describing: self) } // swiftlint:disable:this identifier_name
@@ -51,5 +52,15 @@ extension UIColor {
             blue: rgb & 0xFF,
             alpha: alpha
         )
+    }
+}
+
+extension TargetType {
+    static func stubbedResponse(fileName: String) -> Data {
+        if let path = Bundle.main.path(forResource: fileName, ofType: "json"),
+           let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
+            return data
+        }
+        return Data()
     }
 }

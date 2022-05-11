@@ -6,6 +6,7 @@
 //
 
 import RealmSwift
+import SwiftyJSON
 
 final class Pokemon: Object {
     @objc dynamic var index: Int = 0
@@ -18,4 +19,15 @@ final class Pokemon: Object {
     }
 
     var imageUrl: String { "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(index).png" }
+
+    class func fromJSON(_ json: JSON, page: Int) -> Pokemon {
+        Pokemon().then {
+            let url = json["url"].stringValue
+            let index = Int(url.split(separator: "/").last!)!
+            $0.index = index
+            $0.name = json["name"].stringValue
+            $0.url = url
+            $0.page = page
+        }
+    }
 }
