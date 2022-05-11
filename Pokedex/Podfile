@@ -4,7 +4,6 @@ platform :ios, '14.1'
 def common_pods
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
-  pod 'RxTest', '6.5.0'
   pod 'SwiftyJSON', '~> 5.0'
   pod 'SnapKit', '~> 5.0.0'
   pod 'Then'
@@ -23,6 +22,7 @@ target 'Pokedex' do
 
   target 'PokedexTests' do
     inherit! :search_paths
+    pod 'RxTest', '6.5.0'
     # Pods for testing
   end
 

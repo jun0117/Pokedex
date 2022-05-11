@@ -1,13 +1,13 @@
 //
-//  PokemonListRepository.swift
+//  DefaultPokemonRepository.swift
 //  Pokedex
 //
-//  Created by 이준성 on 2021/05/05.
+//  Created by 이준성 on 2022/05/11.
 //
 
 import RxSwift
 
-final class PokemonListRepository {
+final class DefaultPokemonRepository: PokemonRepository {
     private let apiManager = APIManger()
     private let dbManager = DBManager.shared
 

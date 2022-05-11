@@ -40,7 +40,8 @@ final class PokemonListVC: BaseViewController<PokemonListVM, PokemonListView> {
         contentView.collectionView.rx
             .modelSelected(Pokemon.self)
             .bind(with: self) { owner, pokemon in
-                let pokemonInfoVM = PokemonInfoVM(pokemon, repository: .init())
+                let pokemonUseCase = DefaultPokemonListUseCase(repository: DefaultPokemonRepository())
+                let pokemonInfoVM = PokemonInfoVM(pokemon, useCase: pokemonUseCase)
                 let pokemonInfoVC = PokemonInfoVC(viewModel: pokemonInfoVM)
                 owner.navigationController?.present(pokemonInfoVC, animated: true)
             }.disposed(by: disposeBag)

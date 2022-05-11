@@ -26,15 +26,15 @@ final class PokemonListVM: BaseViewModel {
     private(set) var input: Input!
     private(set) var output: Output!
 
-    private let repository: PokemonListRepository
+    private let useCase: PokemonListUseCase
     private var page = 0
 
     // Input
     private let viewDidAppear = PublishSubject<Void>()
     private let fetchMore = PublishSubject<Void>()
 
-    init(repository: PokemonListRepository) {
-        self.repository = repository
+    init(useCase: PokemonListUseCase) {
+        self.useCase = useCase
         self.input = Input(
             viewDidAppear: viewDidAppear.asObserver(),
             fetchMore: fetchMore.asObserver()
@@ -53,7 +53,7 @@ final class PokemonListVM: BaseViewModel {
             .do(onNext: { _ in isLoading.accept(true) })
             .withUnretained(self)
             .flatMapLatest { owner, _ in
-                owner.repository.fetchPokemonList(page: owner.page)
+                owner.useCase.fetchPokemonList(page: owner.page)
             }
             .do(onNext: { [weak self] pokemonList in
                 self?.page += 1
