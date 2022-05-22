@@ -24,16 +24,15 @@ final class PokemonListVC: BaseViewController<PokemonListVM, PokemonListView> {
     }
 
     private func bindInput() {
-        contentView.collectionView.rx
-            .willDisplayCell
-            .throttle(.milliseconds(100), scheduler: MainScheduler.instance)
-            .filter { [weak self] _, indexPath in
-                guard let count = self?.contentView.collectionView.numberOfItems(inSection: 0) else {
-                    return false
-                }
-                return indexPath.row + 1 == count
+        contentView.collectionView.rx.didScroll
+            .withLatestFrom(contentView.collectionView.rx.contentOffset)
+            .withUnretained(self)
+            .filter { owner, contentOffset in
+                let contentHeight = owner.contentView.collectionView.contentSize.height
+                let paddingSpace = contentHeight - contentOffset.y
+                return paddingSpace < UIScreen.main.bounds.height
             }
-            .map { _ in () }
+            .map { _ in }
             .bind(to: viewModel.input.fetchMore)
             .disposed(by: disposeBag)
 
