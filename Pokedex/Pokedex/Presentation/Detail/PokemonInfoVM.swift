@@ -10,7 +10,7 @@ import RxCocoa
 
 final class PokemonInfoVM: BaseViewModel {
     struct Input {
-        let viewDidAppear: AnyObserver<Void>
+        let viewDidLoad: AnyObserver<Void>
     }
 
     struct Output {
@@ -28,19 +28,19 @@ final class PokemonInfoVM: BaseViewModel {
     private let pokemon: Pokemon
 
     // Input
-    private let viewDidAppear = PublishSubject<Void>()
+    private let viewDidLoad = PublishSubject<Void>()
 
     init(_ pokemon: Pokemon, useCase: PokemonListUseCase) {
         self.pokemon = pokemon
         self.useCase = useCase
-        self.input = Input(viewDidAppear: viewDidAppear.asObserver())
+        self.input = Input(viewDidLoad: viewDidLoad.asObserver())
         self.output = initOutput()
     }
 
     private func initOutput() -> Output {
         let isLoading = BehaviorRelay<Bool>(value: false)
 
-        let pokemonInfo = viewDidAppear
+        let pokemonInfo = viewDidLoad
             .filter { isLoading.value == false }
             .do(onNext: { _ in isLoading.accept(true) })
             .withUnretained(self)

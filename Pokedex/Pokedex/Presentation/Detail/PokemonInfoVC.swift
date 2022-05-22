@@ -14,11 +14,7 @@ final class PokemonInfoVC: BaseViewController<PokemonInfoVM, PokemonInfoView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindOutput()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.input.viewDidAppear.onNext(())
+        viewModel.input.viewDidLoad.onNext(())
     }
 
     private func bindOutput() {
