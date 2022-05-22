@@ -7,6 +7,7 @@
 
 import UIKit
 import Moya
+import Kingfisher
 
 extension UIView {
     static var id: String { String(describing: self) } // swiftlint:disable:this identifier_name
@@ -62,5 +63,24 @@ extension TargetType {
             return data
         }
         return Data()
+    }
+}
+
+extension UIImageView {
+    func setImage(with urlString: String) {
+        ImageCache.default.retrieveImage(forKey: urlString, options: nil) { result in
+            switch result {
+            case .success(let cache):
+                if let image = cache.image {
+                    self.image = image
+                } else {
+                    guard let url = URL(string: urlString) else { return }
+                    let resource = ImageResource(downloadURL: url, cacheKey: urlString)
+                    self.kf.setImage(with: resource)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }

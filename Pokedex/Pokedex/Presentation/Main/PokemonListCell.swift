@@ -16,7 +16,7 @@ final class PokemonListCell: UICollectionViewCell {
 
     func configure(_ pokemon: Pokemon) {
         nameLabel.text = pokemon.name.capitalized
-        image.kf.setImage(with: URL(string: pokemon.imageUrl))
+        image.setImage(with: pokemon.imageUrl)
     }
 
     override init(frame: CGRect) {

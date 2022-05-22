@@ -41,7 +41,7 @@ final class PokemonInfoVC: BaseViewController<PokemonInfoVM, PokemonInfoView> {
 extension Reactive where Base: PokemonInfoVC {
     var pokemon: Binder<Pokemon> {
         Binder(base) { base, pokemon in
-            base.contentView.pokemonImage.kf.setImage(with: URL(string: pokemon.imageUrl))
+            base.contentView.pokemonImage.setImage(with: pokemon.imageUrl)
             base.contentView.pokemonName.text = pokemon.name.capitalized
         }
     }
